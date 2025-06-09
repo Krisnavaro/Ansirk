@@ -5,55 +5,71 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->get('/', 'Login::index'); // Arahkan root ke halaman login
+$routes->get('/', 'Pages::splashScreen'); // Arahkan root ke splash screen
 
-// 🔐 LOGIN & LOGOUT (Bebas Akses)
-$routes->get('login', 'Login::index');         // ➜ tampilan form login
-$routes->post('login', 'Login::login');        // ➜ proses login
-$routes->get('logout', 'Login::logout');       // ➜ proses logout
+// 🔐 LOGIN & LOGOUT
+// Rute untuk pilihan login (Pelanggan/Admin)
+$routes->get('login', 'Login::index'); // Mengarah ke Login::index yang akan menampilkan login_choice.php
+$routes->get('login/(:segment)', 'Login::showLoginForm/$1'); // Untuk menampilkan form login spesifik
+$routes->post('login', 'Login::login'); // Proses login
+$routes->get('logout', 'Login::logout'); // Proses logout
+
+// 🆕 Rute untuk Pendaftaran Akun (Register) - BEBAS DIAKSES
+$routes->get('register', 'Register::index'); // Tampilkan form pendaftaran (pages/register.php)
+$routes->post('register', 'Register::registerUser'); // Proses pendaftaran user
 
 // 🔓 BEBAS DIAKSES TANPA LOGIN (Hanya Halaman Info Umum)
-$routes->get('dashboard', 'Pages::dashboard'); // Dashboard umum bisa diakses semua
+$routes->get('dashboard', 'Pages::dashboard'); // Dashboard utama
 $routes->get('gallery', 'Pages::gallery');
 $routes->get('hubungi-kami', 'Pages::hubungiKami');
 $routes->get('artikel', 'Pages::artikel');
 $routes->get('bantuan', 'Pages::bantuan');
 
 
-// 🔐 HARUS LOGIN - AKses untuk SEMUA Pengguna yang sudah Login
-// Rute ini akan melewati AuthFilter tanpa argumen role, hanya memastikan user sudah login
+// 🔐 HARUS LOGIN - Akses untuk SEMUA Pengguna yang sudah Login (ADMIN/CUSTOMER/CS)
 $routes->group('', ['filter' => 'auth'], function($routes) {
-    $routes->get('profile', 'Pages::profile');
-    // Jika ada halaman lain yang semua user login bisa akses
-    // $routes->get('halaman-bersama', 'Pages::halamanBersama');
+    // Rute untuk Profil Perusahaan (Sidebar)
+    $routes->get('profile-perusahaan', 'Pages::profilePerusahaan'); // Menggunakan Pages::profilePerusahaan()
+
+    // Rute untuk Biodata Pelanggan (Topbar)
+    $routes->get('customer-profile', 'Pages::customerProfile');
+    $routes->get('customer-profile/edit', 'Pages::editCustomerProfile');
+    $routes->post('customer-profile/update', 'Pages::updateCustomerProfile');
+
+    // Histori Pemesanan dan Penyewaan
+    $routes->get('histori-pemesanan', 'Pages::historiPemesanan');
+    $routes->get('histori-penyewaan', 'Pages::historiPenyewaan');
 });
 
 
 // 🔐 HARUS LOGIN - Akses KHUSUS PELANGGAN ('customer')
-// Rute ini hanya bisa diakses oleh user dengan role 'customer'
 $routes->group('', ['filter' => 'auth:customer'], function($routes) {
-    $routes->get('pemesanan', 'Pages::pemesanan');
-    $routes->get('penyewaan-barang', 'Pages::penyewaanBarang');
-    $routes->get('keranjang', 'Pages::keranjang');
-    $routes->get('jasa-perbaikan', 'Pages::jasaPerbaikan');
+    // Pemesanan
+    $routes->get('pemesanan', 'Pages::pemesanan'); // Pilih Jasa/Barang
+    $routes->get('pemesanan-jasa-barang-form1', 'Pages::pemesananJasaBarangForm1'); // Form Data Survey
+    $routes->get('pemesanan-jasa-barang-form2', 'Pages::pemesananJasaBarangForm2'); // Form Data Pelaksanaan
+    $routes->get('pemesanan-paket', 'Pages::pemesananPaket'); // Pilih Paket
 
-    // Rute untuk proses pemesanan jasa (form dan simpan)
-    $routes->get('pemesanan-jasa', 'PemesananJasa::index');
-    $routes->post('pemesanan-jasa/simpan', 'PemesananJasa::simpan');
+    // Penyewaan
+    $routes->get('penyewaan-barang', 'Pages::penyewaanBarang'); // Pilih Alat
+    $routes->get('penyewaan-barang/cek-alat/(:segment)', 'Pages::cekAlat/$1'); // Cek Alat
+    $routes->get('penyewaan-barang/form/(:segment)', 'Pages::penyewaanForm/$1'); // Form Penyewaan
+
+    // Keranjang (mode ada item)
+    $routes->get('keranjang', 'Pages::keranjang');
+    // Jika perlu rute untuk keranjang kosong
+    $routes->get('keranjang-kosong', 'Pages::keranjangKosong');
+
+    // Rute pemesanan-jasa yang sudah ada (dari controller PemesananJasa)
+    // Jika Anda ingin mengintegrasikan PemesananJasaController ke alur baru, Anda bisa sesuaikan ini.
+    // Contoh: $routes->post('pemesanan-jasa/simpan', 'PemesananJasa::simpan');
+    $routes->get('jasa-perbaikan', 'Pages::jasaPerbaikan');
 });
 
 
 // 🔐 HARUS LOGIN - Akses KHUSUS ADMIN ('admin')
-// Rute ini hanya bisa diakses oleh user dengan role 'admin'
 $routes->group('admin', ['filter' => 'auth:admin'], function($routes) {
-    $routes->get('/', 'Admin::index'); // Contoh halaman dashboard admin
-    $routes->get('manajemen-pengguna', 'Admin::manajemenPengguna'); // Contoh halaman manajemen pengguna
-    $routes->get('kelola-pemesanan', 'Admin::kelolaPemesanan'); // Contoh halaman kelola pemesanan
-    // Tambahkan rute khusus admin lainnya di sini
+    $routes->get('/', 'Admin::index');
+    $routes->get('manajemen-pengguna', 'Admin::manajemenPengguna');
+    $routes->get('kelola-pemesanan', 'Admin::kelolaPemesanan');
 });
-
-// Jika Anda memiliki peran CS terpisah, Anda bisa membuat grup lain
-// $routes->group('cs', ['filter' => 'auth:cs'], function($routes) {
-//     $routes->get('/', 'Cs::index');
-//     $routes->get('daftar-tiket', 'Cs::daftarTiket');
-// });

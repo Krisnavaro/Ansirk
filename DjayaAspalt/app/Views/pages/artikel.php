@@ -1,119 +1,124 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
-<div class="container py-5">
+<div class="container py-4">
+    <div class="d-flex align-items-center mb-4">
+        <a href="javascript:history.back()" class="me-3">
+            <img src="<?= base_url('assets/Back-01.png') ?>" width="43" alt="Back">
+        </a>
+        <h2 class="mb-0">Artikel</h2>
+    </div>
 
     <div class="row">
-        <!-- Artikel 1 -->
-        <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100 shadow-sm">
-                <img src="/assets/artikel/art1.png" class="card-img-top" alt="Cor Beton Tangerang">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between mb-2">
-                        <span class="badge bg-primary">Kontraktor</span>
-                        <small class="text-muted">30 Jan 2023</small>
-                    </div>
-                    <h5 class="card-title">Biaya Kontraktor Cor Beton Tangerang</h5>
-                    <p class="card-text">Informasi terbaru tentang biaya kontraktor cor beton di wilayah Tangerang dan sekitarnya...</p>
-                    <a href="#" class="btn btn-outline-primary btn-sm">Baca Selengkapnya</a>
-                </div>
-            </div>
+        <div class="col-lg-2 text-center d-none d-lg-block">
+            <img src="<?= base_url('assets/worker_with_shovel_animated.gif') ?>" class="img-fluid mt-5" style="max-width: 120px;" alt="Worker with Shovel">
         </div>
 
-        <!-- Artikel 2 -->
-        <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100 shadow-sm">
-                <img src="/assets/artikel/art2.png" class="card-img-top" alt="Jalan Jakarta Timur">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between mb-2">
-                        <span class="badge bg-success">Jasa</span>
-                        <small class="text-muted">29 Apr 2022</small>
+        <div class="col-lg-10">
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <img src="/assets/artikel/art1.png" class="card-img-top" alt="Cor Beton Tangerang">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-2" style="font-size:0.9em;">
+                                <small class="text-muted"><i class="fas fa-user-tie me-1"></i>admin at</small>
+                                <small class="text-muted">2022-04-29</small>
+                            </div>
+                            <h5 class="card-title fw-bold">Biaya Kontraktor Cor Beton Tangerang</h5>
+                            <p class="card-text" style="font-size:0.9em;">Biaya Kontraktor Cor Beton Tangerang, Aspal merupakan bahan hidro karbon yang bersifat melekat (adhesive), berwarna hitam kecoklatan, kuat akan air, dan viskoelastis. Aspal kerap juga disebut sebagai bitumen yakni bahan pengikat pada campuran beraspal yang [...]</p>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <small class="text-muted">
+                                    <i class="far fa-heart"></i> 0
+                                    <i class="far fa-comment ms-2"></i> 0
+                                    <i class="far fa-eye ms-2"></i> 0
+                                </small>
+                                <a href="#" class="text-decoration-none" style="font-size:0.9em;">Read more</a>
+                            </div>
+                        </div>
                     </div>
-                    <h5 class="card-title">Kontraktor Specialist Jalan Jakarta Timur</h5>
-                    <p class="card-text">Layanan kontraktor specialist jalan untuk wilayah Jakarta Timur dengan kualitas terbaik...</p>
-                    <a href="#" class="btn btn-outline-primary btn-sm">Baca Selengkapnya</a>
                 </div>
-            </div>
-        </div>
 
-        <!-- Artikel 3 -->
-        <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100 shadow-sm">
-                <img src="/assets/artikel/art3.png" class="card-img-top" alt="Jalan Jakarta Utara">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between mb-2">
-                        <span class="badge bg-warning text-dark">Harga</span>
-                        <small class="text-muted">30 Jan 2023</small>
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <img src="/assets/artikel/art2.png" class="card-img-top" alt="Jalan Jakarta Timur">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-2" style="font-size:0.9em;">
+                                <small class="text-muted"><i class="fas fa-user-tie me-1"></i>admin at</small>
+                                <small class="text-muted">2022-04-29</small>
+                            </div>
+                            <h5 class="card-title fw-bold">Kontraktor Specialist Jalan Jakarta Timur</h5>
+                            <p class="card-text" style="font-size:0.9em;">Kontraktor Spesialis Jalan Jakarta Timur, Aspal melunak ketika dipanaskan dan elastis dalam kondisi tertentu. Sifat mekanik aspal tak demikian penting selain bila dipakai sebagai bahan pengikat atau lem pada proyek. Hal inilah yang membuat aspal [...]</p>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <small class="text-muted">
+                                    <i class="far fa-heart"></i> 0
+                                    <i class="far fa-comment ms-2"></i> 0
+                                    <i class="far fa-eye ms-2"></i> 0
+                                </small>
+                                <a href="#" class="text-decoration-none" style="font-size:0.9em;">Read more</a>
+                            </div>
+                        </div>
                     </div>
-                    <h5 class="card-title">Harga Kontraktor Jalan Jakarta Utara</h5>
-                    <p class="card-text">Update harga terbaru untuk jasa kontraktor jalan di wilayah Jakarta Utara...</p>
-                    <a href="#" class="btn btn-outline-primary btn-sm">Baca Selengkapnya</a>
                 </div>
-            </div>
-        </div>
 
-        <!-- Artikel 4 -->
-        <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100 shadow-sm">
-                <img src="/assets/artikel/art4.png" class="card-img-top" alt="Pengaspalan Jakarta Selatan">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between mb-2">
-                        <span class="badge bg-info">Pengaspalan</span>
-                        <small class="text-muted">30 Jan 2023</small>
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <img src="/assets/artikel/art3.png" class="card-img-top" alt="Jalan Jakarta Utara">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-2" style="font-size:0.9em;">
+                                <small class="text-muted"><i class="fas fa-user-tie me-1"></i>admin at</small>
+                                <small class="text-muted">2022-04-29</small>
+                            </div>
+                            <h5 class="card-title fw-bold">Harga Kontraktor Jalan Jakarta Utara</h5>
+                            <p class="card-text" style="font-size:0.9em;">Harga Jasa Pengaspalan Jalan Raya Jakarta Selatan. Penggunaan aspal telah ada sejak zaman dulu, sejak diterapkan sebagai pembendung air di antara dinding batu reservoir di sebagian negara. Di Timur Tengah, banyak dipakai untuk pengaspalan jalan [...]</p>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <small class="text-muted">
+                                    <i class="far fa-heart"></i> 0
+                                    <i class="far fa-comment ms-2"></i> 0
+                                    <i class="far fa-eye ms-2"></i> 0
+                                </small>
+                                <a href="#" class="text-decoration-none" style="font-size:0.9em;">Read more</a>
+                            </div>
+                        </div>
                     </div>
-                    <h5 class="card-title">Harga Jasa Pengaspalan Jalan Raya Jakarta Selatan</h5>
-                    <p class="card-text">Informasi lengkap tentang harga jasa pengaspalan jalan raya di Jakarta Selatan...</p>
-                    <a href="#" class="btn btn-outline-primary btn-sm">Baca Selengkapnya</a>
                 </div>
-            </div>
-        </div>
 
-        <!-- Artikel 5 -->
-        <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100 shadow-sm">
-                <img src="/assets/artikel/art5.png" class="card-img-top" alt="Perbaikan Jalan">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between mb-2">
-                        <span class="badge bg-secondary">Tips</span>
-                        <small class="text-muted">15 Mar 2023</small>
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <img src="/assets/artikel/art4.png" class="card-img-top" alt="Pengaspalan Jakarta Selatan">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-2" style="font-size:0.9em;">
+                                <small class="text-muted"><i class="fas fa-user-tie me-1"></i>admin at</small>
+                                <small class="text-muted">2022-04-29</small>
+                            </div>
+                            <h5 class="card-title fw-bold">Harga Jasa Pengaspalan Jalan Raya Jakarta Selatan</h5>
+                            <p class="card-text" style="font-size:0.9em;">Informasi lengkap tentang harga jasa pengaspalan jalan raya di Jakarta Selatan...</p>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <small class="text-muted">
+                                    <i class="far fa-heart"></i> 0
+                                    <i class="far fa-comment ms-2"></i> 0
+                                    <i class="far fa-eye ms-2"></i> 0
+                                </small>
+                                <a href="#" class="text-decoration-none" style="font-size:0.9em;">Read more</a>
+                            </div>
+                        </div>
                     </div>
-                    <h5 class="card-title">Tips Memilih Kontraktor Jalan yang Tepat</h5>
-                    <p class="card-text">Panduan lengkap untuk memilih kontraktor jalan profesional dan berpengalaman...</p>
-                    <a href="#" class="btn btn-outline-primary btn-sm">Baca Selengkapnya</a>
                 </div>
-            </div>
-        </div>
 
-        <!-- Artikel 6 -->
-        <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100 shadow-sm">
-                <img src="/assets/artikel/art6.png" class="card-img-top" alt="Material Aspal">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between mb-2">
-                        <span class="badge bg-danger">Material</span>
-                        <small class="text-muted">10 Feb 2023</small>
-                    </div>
-                    <h5 class="card-title">Jenis-jenis Material Aspal untuk Jalan</h5>
-                    <p class="card-text">Mengenal berbagai jenis material aspal yang biasa digunakan untuk pengaspalan jalan...</p>
-                    <a href="#" class="btn btn-outline-primary btn-sm">Baca Selengkapnya</a>
-                </div>
+                <nav aria-label="Page navigation" class="mt-4">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Next</a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>
-
-    <!-- Pagination -->
-    <nav aria-label="Page navigation">
-        <ul class="pagination justify-content-center mt-4">
-            <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-            </li>
-            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#">Next</a>
-            </li>
-        </ul>
-    </nav>
 </div>
 
 <style>

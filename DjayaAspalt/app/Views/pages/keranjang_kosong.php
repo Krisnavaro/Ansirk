@@ -5,11 +5,12 @@
         <a href="javascript:history.back()" class="me-3">
             <img src="<?= base_url('assets/Back-01.png') ?>" width="43" alt="Back">
         </a>
-        <h2 class="mb-0">Jasa Perbaikan Jalan</h2>
+        <h2 class="mb-0">Keranjang</h2>
     </div>
+
     <div class="text-center mt-5">
-        <p>Konten untuk halaman Jasa Perbaikan Jalan akan ada di sini.</p>
-        <p>Halaman ini dilindungi oleh filter, sehingga hanya user yang login sebagai customer yang bisa mengaksesnya.</p>
+        <img src="<?= base_url('assets/keranjang_kosong.gif') ?>" alt="Keranjang Kosong" class="img-fluid" style="max-width: 250px;">
+        <h4 class="text-danger mt-3 fw-bold">Belum ada pesanan/penyewaan barang</h4>
     </div>
 </div>
 <?= $this->endSection() ?>

@@ -34,6 +34,7 @@ class Filters extends BaseFilters
         'forcehttps'    => ForceHTTPS::class,
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
+        'auth'          => \App\Filters\AuthFilter::class, // BARIS INI YANG PENTING DITAMBAH/DIPASTIKAN
     ];
 
     /**
@@ -70,7 +71,7 @@ class Filters extends BaseFilters
     public array $globals = [
         'before' => [
             // 'honeypot',
-            // 'csrf',
+            // 'csrf', // Umumnya diaktifkan untuk perlindungan CSRF
             // 'invalidchars',
         ],
         'after' => [

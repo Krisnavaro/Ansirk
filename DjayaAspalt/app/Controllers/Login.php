@@ -2,8 +2,8 @@
 
 namespace App\Controllers;
 
-use App\Controllers\BaseController; // Pastikan ini di-include
-use CodeIgniter\HTTP\RedirectResponse; // Tambahkan ini untuk tipe return hint
+use App\Controllers\BaseController;
+use CodeIgniter\HTTP\RedirectResponse;
 
 class Login extends BaseController
 {
@@ -14,43 +14,55 @@ class Login extends BaseController
         if (session()->get('logged_in')) {
             return redirect()->to('/dashboard');
         }
-
-        return view('login');
+        // Tampilkan modal pilihan login (Pelanggan/Admin)
+        return view('login_choice'); // File view baru untuk pilihan login
     }
 
     // Proses login
     public function login(): RedirectResponse
     {
-        $username = $this->request->getPost('username');
+        $username = $this->request->getPost('username'); // Ini akan menjadi email
         $password = $this->request->getPost('password');
+        $loginType = $this->request->getPost('login_type'); // 'customer' atau 'admin'
 
         // --- PENTING: BAGIAN INI HARUS DIGANTI DENGAN VERIFIKASI DARI DATABASE ---
         // Ini adalah contoh hardcoded untuk DEMO / UJI COBA CEPAT.
         // Dalam produksi, Anda akan query database dan memverifikasi password hash.
         $users = [
-            'admin_jasa' => [ // Username untuk Admin
-                'password' => 'admin123', // Password Admin
+            'admin_jasa@djayaspalt.com' => [ // Admin login dengan email ini
+                'password' => 'admin123',
                 'role' => 'admin',
             ],
-            'pelanggan_satu' => [ // Username untuk Pelanggan
-                'password' => 'passpelanggan', // Password Pelanggan
+            'pelanggan_satu@djayaspalt.com' => [ // Pelanggan login dengan email ini
+                'password' => 'passpelanggan',
                 'role' => 'customer',
             ],
             // Anda bisa tambahkan user lain di sini
-            // 'username_cs' => [
-            //     'password' => 'passcs',
-            //     'role' => 'cs',
-            // ],
         ];
         // --- AKHIR BAGIAN HARDCODED ---
 
         if (array_key_exists($username, $users) && $users[$username]['password'] === $password) {
-            session()->set('logged_in', true);
-            session()->set('username', $username);
-            session()->set('role', $users[$username]['role']); // Simpan role ke session
-            return redirect()->to('/dashboard')->with('success', 'Selamat datang, ' . $username . '!');
+            // Verifikasi login type (misal admin tidak bisa login sebagai customer)
+            if ($users[$username]['role'] === $loginType) {
+                session()->set('logged_in', true);
+                session()->set('username', $username); // Simpan email sebagai username
+                session()->set('role', $users[$username]['role']);
+                // Simpan data dummy untuk profil pelanggan
+                session()->set('nama_lengkap', 'Samuel Orief'); // Contoh data dummy
+                session()->set('email', $username); // Email sama dengan username login
+                session()->set('no_handphone', '081234567890'); // Contoh no HP dummy
+                session()->set('alamat_rumah', 'Jl. Contoh Alamat No. 123'); // Contoh alamat dummy
+
+                return redirect()->to('/dashboard')->with('success', 'Selamat datang, ' . $username . '!');
+            } else {
+                // Simpan login_type_attempt ke flashdata jika ada error, untuk menampilkan modal yang sama
+                session()->setFlashdata('login_type_attempt', $loginType);
+                return redirect()->back()->with('error', 'Jenis login tidak sesuai dengan akun.');
+            }
         } else {
-            return redirect()->back()->with('error', 'Username atau Password salah.');
+            // Simpan login_type_attempt ke flashdata jika ada error, untuk menampilkan modal yang sama
+            session()->setFlashdata('login_type_attempt', $loginType);
+            return redirect()->back()->with('error', 'Email atau Password salah.');
         }
     }
 
@@ -59,5 +71,16 @@ class Login extends BaseController
     {
         session()->destroy();
         return redirect()->to('/');
+    }
+
+    // Metode untuk menampilkan form login spesifik (dipanggil dari login_choice)
+    public function showLoginForm($type = 'customer'): string|RedirectResponse
+    {
+        if (session()->get('logged_in')) {
+            return redirect()->to('/dashboard');
+        }
+        // Simpan tipe login ke session sementara untuk digunakan di modal
+        session()->setFlashdata('current_login_type', $type);
+        return view('login', ['login_type' => $type]);
     }
 }
