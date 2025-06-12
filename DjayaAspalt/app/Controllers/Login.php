@@ -32,10 +32,16 @@ class Login extends BaseController
             'admin_jasa@djayaspalt.com' => [ // Admin login dengan email ini
                 'password' => 'admin123',
                 'role' => 'admin',
+                'nama_lengkap' => 'Sam Runner', // Data admin
+                'no_handphone' => '081234567891',
+                'alamat_rumah' => 'Jl. Admin Raya No. 1'
             ],
             'pelanggan_satu@djayaspalt.com' => [ // Pelanggan login dengan email ini
                 'password' => 'passpelanggan',
                 'role' => 'customer',
+                'nama_lengkap' => 'Samuel Orief', // Data pelanggan
+                'no_handphone' => '081234567890',
+                'alamat_rumah' => 'Jl. Contoh Alamat No. 123'
             ],
             // Anda bisa tambahkan user lain di sini
         ];
@@ -47,20 +53,22 @@ class Login extends BaseController
                 session()->set('logged_in', true);
                 session()->set('username', $username); // Simpan email sebagai username
                 session()->set('role', $users[$username]['role']);
-                // Simpan data dummy untuk profil pelanggan
-                session()->set('nama_lengkap', 'Samuel Orief'); // Contoh data dummy
+                // Simpan data dummy untuk profil
+                session()->set('nama_lengkap', $users[$username]['nama_lengkap']);
                 session()->set('email', $username); // Email sama dengan username login
-                session()->set('no_handphone', '081234567890'); // Contoh no HP dummy
-                session()->set('alamat_rumah', 'Jl. Contoh Alamat No. 123'); // Contoh alamat dummy
+                session()->set('no_handphone', $users[$username]['no_handphone']);
+                session()->set('alamat_rumah', $users[$username]['alamat_rumah']);
 
-                return redirect()->to('/dashboard')->with('success', 'Selamat datang, ' . $username . '!');
+                // Arahkan admin ke dashboard admin
+                if ($users[$username]['role'] === 'admin') {
+                    return redirect()->to('/admin/dashboard')->with('success', 'Selamat datang Admin, ' . $users[$username]['nama_lengkap'] . '!');
+                }
+                return redirect()->to('/dashboard')->with('success', 'Selamat datang, ' . $users[$username]['nama_lengkap'] . '!');
             } else {
-                // Simpan login_type_attempt ke flashdata jika ada error, untuk menampilkan modal yang sama
                 session()->setFlashdata('login_type_attempt', $loginType);
                 return redirect()->back()->with('error', 'Jenis login tidak sesuai dengan akun.');
             }
         } else {
-            // Simpan login_type_attempt ke flashdata jika ada error, untuk menampilkan modal yang sama
             session()->setFlashdata('login_type_attempt', $loginType);
             return redirect()->back()->with('error', 'Email atau Password salah.');
         }
@@ -79,7 +87,6 @@ class Login extends BaseController
         if (session()->get('logged_in')) {
             return redirect()->to('/dashboard');
         }
-        // Simpan tipe login ke session sementara untuk digunakan di modal
         session()->setFlashdata('current_login_type', $type);
         return view('login', ['login_type' => $type]);
     }

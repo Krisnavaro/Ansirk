@@ -9,14 +9,14 @@ $routes->get('/', 'Pages::splashScreen'); // Arahkan root ke splash screen
 
 // 🔐 LOGIN & LOGOUT
 // Rute untuk pilihan login (Pelanggan/Admin)
-$routes->get('login', 'Login::index'); // Mengarah ke Login::index yang akan menampilkan login_choice.php
-$routes->get('login/(:segment)', 'Login::showLoginForm/$1'); // Untuk menampilkan form login spesifik
-$routes->post('login', 'Login::login'); // Proses login
-$routes->get('logout', 'Login::logout'); // Proses logout
+$routes->get('login', 'Login::index');
+$routes->get('login/(:segment)', 'Login::showLoginForm/$1');
+$routes->post('login', 'Login::login');
+$routes->get('logout', 'Login::logout');
 
 // 🆕 Rute untuk Pendaftaran Akun (Register) - BEBAS DIAKSES
-$routes->get('register', 'Register::index'); // Tampilkan form pendaftaran (pages/register.php)
-$routes->post('register', 'Register::registerUser'); // Proses pendaftaran user
+$routes->get('register', 'Register::index');
+$routes->post('register', 'Register::registerUser');
 
 // 🔓 BEBAS DIAKSES TANPA LOGIN (Hanya Halaman Info Umum)
 $routes->get('dashboard', 'Pages::dashboard'); // Dashboard utama
@@ -29,7 +29,7 @@ $routes->get('bantuan', 'Pages::bantuan');
 // 🔐 HARUS LOGIN - Akses untuk SEMUA Pengguna yang sudah Login (ADMIN/CUSTOMER/CS)
 $routes->group('', ['filter' => 'auth'], function($routes) {
     // Rute untuk Profil Perusahaan (Sidebar)
-    $routes->get('profile-perusahaan', 'Pages::profilePerusahaan'); // Menggunakan Pages::profilePerusahaan()
+    $routes->get('profile-perusahaan', 'Pages::profilePerusahaan');
 
     // Rute untuk Biodata Pelanggan (Topbar)
     $routes->get('customer-profile', 'Pages::customerProfile');
@@ -60,16 +60,34 @@ $routes->group('', ['filter' => 'auth:customer'], function($routes) {
     // Jika perlu rute untuk keranjang kosong
     $routes->get('keranjang-kosong', 'Pages::keranjangKosong');
 
-    // Rute pemesanan-jasa yang sudah ada (dari controller PemesananJasa)
-    // Jika Anda ingin mengintegrasikan PemesananJasaController ke alur baru, Anda bisa sesuaikan ini.
-    // Contoh: $routes->post('pemesanan-jasa/simpan', 'PemesananJasa::simpan');
     $routes->get('jasa-perbaikan', 'Pages::jasaPerbaikan');
 });
 
 
 // 🔐 HARUS LOGIN - Akses KHUSUS ADMIN ('admin')
 $routes->group('admin', ['filter' => 'auth:admin'], function($routes) {
-    $routes->get('/', 'Admin::index');
-    $routes->get('manajemen-pengguna', 'Admin::manajemenPengguna');
-    $routes->get('kelola-pemesanan', 'Admin::kelolaPemesanan');
+    // Dashboard Admin
+    $routes->get('dashboard', 'Admin::index'); // Rute untuk dashboard admin
+
+    // Profil Admin
+    $routes->get('profile', 'Admin::adminProfile'); // Rute untuk profil admin
+    $routes->get('profile/edit', 'Admin::editAdminProfile');
+    $routes->post('profile/update', 'Admin::updateAdminProfile');
+
+    // Manajemen Data Admin
+    $routes->get('pelanggan', 'Admin::manajemenPengguna'); // Data Pelanggan
+    $routes->get('pelaksanaan', 'Admin::pelaksanaan'); // Data Pelaksanaan
+    $routes->get('pemesanan', 'Admin::pemesanan'); // Data Pemesanan
+    $routes->get('penyewaan', 'Admin::penyewaan'); // Data Penyewaan
+    $routes->get('alat', 'Admin::cekStokAlat'); // Cek Stok Alat
+    $routes->get('pembayaran', 'Admin::pembayaran'); // Data Pembayaran
+    $routes->get('pembayaran/bukti', 'Admin::buktiPembayaran'); // Bukti Pembayaran
+    $routes->get('pembayaran/bukti/detail/(:segment)', 'Admin::detailBuktiPembayaran/$1'); // Detail Bukti Pembayaran
+    $routes->get('pengembalian', 'Admin::pengembalian'); // Data Pengembalian
+
+    // Sub-menu Pemesanan (Cek Paket, Cek Stok Material, Cek Pekerja)
+    $routes->get('cek-paket', 'Admin::cekPaket');
+    $routes->get('cek-stok-full', 'Admin::cekStokFull'); // Stok Material
+    $routes->get('cek-pekerja-status', 'Admin::cekPekerjaStatus'); // Status Pekerja
+    $routes->get('cek-pekerja-detail/(:segment)', 'Admin::cekPekerjaDetail/$1'); // Detail Pekerja
 });

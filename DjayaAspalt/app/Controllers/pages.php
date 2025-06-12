@@ -5,9 +5,6 @@ use App\Controllers\BaseController;
 
 class Pages extends BaseController
 {
-    // Fungsi mustLogin(), isAdmin(), isCustomer() ini sekarang bersifat opsional atau
-    // hanya untuk keperluan internal/debug jika diperlukan di controller ini,
-    // karena filter di Routes.php sudah menangani pembatasan akses utama.
     private function mustLogin()
     {
         return session()->get('logged_in');
@@ -54,19 +51,27 @@ class Pages extends BaseController
 
     // Metode untuk halaman Edit Profil Pelanggan
     public function editCustomerProfile() {
+        // Ambil data dari session untuk mengisi form
         $data['nama_lengkap'] = session()->get('nama_lengkap') ?? 'Nama Lengkap Anda';
         $data['no_handphone'] = session()->get('no_handphone') ?? '08xxxxxxxxxx';
-        $data['email'] = session()->get('email') ?? 'email@example.com';
+        $data['email'] = session()->get('email') ?? 'email@example.com'; // Email biasanya tidak diedit via form ini
         $data['alamat_rumah'] = session()->get('alamat_rumah') ?? 'Alamat Rumah Anda';
         return view('pages/edit_customer_profile', $data);
     }
 
     // Metode untuk memproses update profil pelanggan (saat ini simulasi)
     public function updateCustomerProfile() {
+        // Ambil data dari form POST
+        $namaLengkapBaru = $this->request->getPost('nama_lengkap');
+        $noHandphoneBaru = $this->request->getPost('no_handphone');
+        $alamatRumahBaru = $this->request->getPost('alamat_rumah');
+
+        // Update data di session (ini hanya simulasi, data tidak persisten tanpa DB)
+        session()->set('nama_lengkap', $namaLengkapBaru);
+        session()->set('no_handphone', $noHandphoneBaru);
+        session()->set('alamat_rumah', $alamatRumahBaru);
+
         session()->setFlashdata('success', 'Profil berhasil diperbarui!');
-        // Anda bisa update session dummy data di sini juga kalau mau
-        // session()->set('nama_lengkap', $this->request->getPost('nama_lengkap'));
-        // session()->set('email', $this->request->getPost('email'));
         return redirect()->to('customer-profile');
     }
 
